@@ -220,6 +220,23 @@ class ClaudeMessageHandler:
             await self._handle_stats_command(incoming)
             return
 
+        # --- Claw Cult Ritual Commands ---
+        RITUAL_MAP = {
+            "/current": "Frankenstein, status report on the current surgical trace. What’s rot and what’s live?",
+            "/swarm": "Frankenstein, launch the full swarm: Scout, Tracer, and Killer agents. Map, trace, and challenge every live wire.",
+            "/poc": "Frankenstein, build the smallest, deadliest PoC to prove the strongest candidate.",
+            "/report": "Frankenstein, generate the final surgical report in clean Markdown.",
+            "/next": "Frankenstein, cut the dead candidates and move to the next high-risk stitching.",
+        }
+
+        if cmd_base in RITUAL_MAP:
+            incoming.text = RITUAL_MAP[cmd_base]
+            logger.info(f"RITUAL_COMMAND: {cmd_base} -> {incoming.text}")
+        elif cmd_base == "/kill":
+            # Map /kill to /stop for that monster flavor
+            await self._handle_stop_command(incoming)
+            return
+
         # Filter out status messages (our own messages)
         text = incoming.text or ""
         if any(text.startswith(p) for p in STATUS_MESSAGE_PREFIXES):

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.{{USERNAME}}.claudeproxy</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>{{PROXY_DIR}}/.venv/bin/python3</string>
+        <string>{{PROXY_DIR}}/server.py</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>WorkingDirectory</key>
+    <string>{{PROXY_DIR}}</string>
+    <key>StandardOutPath</key>
+    <string>{{PROXY_DIR}}/server.log</string>
+    <key>StandardErrorPath</key>
+    <string>{{PROXY_DIR}}/server.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>PORT</key>
+        <string>8088</string>
+        <key>HOST</key>
+        <string>127.0.0.1</string>
+    </dict>
+</dict>
+</plist>

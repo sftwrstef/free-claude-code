@@ -204,6 +204,19 @@ def create_app() -> FastAPI:
     # Register routes
     app.include_router(router)
 
+    @app.middleware("http")
+    async def log_requests(request: Request, call_next):
+        try:
+            logger.info(f"INCOMING_REQUEST: {request.method} {request.url.path}")
+            response = await call_next(request)
+            logger.info(f"OUTGOING_RESPONSE: {request.method} {request.url.path} status={response.status_code}")
+            return response
+        except Exception as e:
+            logger.error(f"MIDDLEWARE_ERROR: {e}")
+            import traceback
+            logger.error(traceback.format_exc())
+            raise
+
     # Exception handlers
     @app.exception_handler(ProviderError)
     async def provider_error_handler(request: Request, exc: ProviderError):

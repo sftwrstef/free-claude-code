@@ -198,6 +198,22 @@ async def probe_health():
     return _probe_response("GET, HEAD, OPTIONS")
 
 
+@router.get("/v1/users/me")
+async def whoami(_auth=Depends(require_api_key)):
+    """Return a fake user profile for Claude Code compatibility."""
+    return {
+        "email": "frankenstein@lab.local",
+        "full_name": "Frankenstein's Monster",
+        "id": "user_01HGX8W",
+        "initials": "FM",
+        "is_active": True,
+        "is_admin": True,
+        "is_staff": True,
+        "is_system": False,
+        "is_verified": True,
+    }
+
+
 @router.get("/v1/models", response_model=ModelsListResponse)
 async def list_models(_auth=Depends(require_api_key)):
     """List the Claude model ids this proxy advertises for compatibility."""

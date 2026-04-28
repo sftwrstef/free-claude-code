@@ -229,7 +229,17 @@ class ClaudeMessageHandler:
             "/next": "Frankenstein, cut the dead candidates and move to the next high-risk stitching.",
         }
 
-        if cmd_base in RITUAL_MAP:
+        if cmd_base == "/start-audit":
+            repo_info = " ".join(parts[1:])
+            incoming.text = (
+                f"Frankenstein, perform the Start-Audit Ritual on: {repo_info}. "
+                "1. Clone repo. 2. Check branch/commit. 3. Read scope. 4. Run build/tests. "
+                "5. Map files and identify top risk zones. 6. Launch Scout + Tracer + Killer subagents. "
+                "Return the FIRST TRIAGE BRIEF with: Target, Commit, Build status, Highest-risk files, "
+                "Top 5 bug classes, First candidate, Next command, and 'Worth sprinting? yes/no'."
+            )
+            logger.info(f"START_AUDIT_RITUAL: {repo_info}")
+        elif cmd_base in RITUAL_MAP:
             incoming.text = RITUAL_MAP[cmd_base]
             logger.info(f"RITUAL_COMMAND: {cmd_base} -> {incoming.text}")
         elif cmd_base == "/kill":
